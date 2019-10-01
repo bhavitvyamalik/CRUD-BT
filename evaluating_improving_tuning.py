@@ -15,6 +15,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.metrics import confusion_matrix
+
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import GridSearchCV
+from keras.models import Sequential
+from keras.layers import Dense
+
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score
+from keras.models import Sequential
+from keras.layers import Dense
 
 # Importing the dataset
 dataset = pd.read_csv('Churn_Modelling.csv')
@@ -70,7 +81,6 @@ classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = [
 classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
 
 # Part 3 - Making predictions and evaluating the model
-
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
 y_pred = (y_pred > 0.5)
@@ -91,16 +101,11 @@ new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 
 new_prediction = (new_prediction > 0.5)
 
 # Making the Confusion Matrix
-from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
 # Part 4 - Evaluating, Improving and Tuning the ANN
-
 # Evaluating the ANN
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import cross_val_score
-from keras.models import Sequential
-from keras.layers import Dense
+
 def build_classifier():
     classifier = Sequential()
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
@@ -117,10 +122,6 @@ variance = accuracies.std()
 # Dropout Regularization to reduce overfitting if needed
 
 # Tuning the ANN
-from keras.wrappers.scikit_learn import KerasClassifier
-from sklearn.model_selection import GridSearchCV
-from keras.models import Sequential
-from keras.layers import Dense
 def build_classifier(optimizer):
     classifier = Sequential()
     classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
